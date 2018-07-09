@@ -1,7 +1,7 @@
-//use trivia;
+use recetarium;
 db.dropDatabase();
 
-db.high_scores.insertMany([
+db.recipes.insertMany([
   {
   playerName: "Andris",
   totalAnswers: 40,
