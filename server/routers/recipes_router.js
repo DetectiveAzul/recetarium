@@ -3,10 +3,10 @@ const router = express.Router();
 const ObjectID = require('mongodb').ObjectID;
 
 
-const highScoresRouter = function(highScoresCollection) {
+const recipesRouter = function(recipesCollection) {
   //index
   router.get('/', (req, res) => {
-    highScoresCollection
+    recipesCollection
       .find()
       .toArray()
       .then( (docs) => res.json(docs))
@@ -15,18 +15,18 @@ const highScoresRouter = function(highScoresCollection) {
   //show
   router.get('/:id', (req, res) => {
     const id = req.params.id;
-    highScoresCollection
+    recipesCollection
       .find({ _id: ObjectID(id)})
       .toArray()
       .then( (docs) => res.json(docs))
   });
 
   router.post('/', (req, res) => {
-    const newStats = req.body.stats;
-    highScoresCollection
-      .insertMany(newStats)
+    const newRecipe = req.body.recipeData;
+    recipesCollection
+      .insertMany(newRecipe)
       .then( () => {
-        highScoresCollection
+        recipesCollection
           .find()
           .toArray()
           .then( (docs) => res.json(docs))
@@ -34,10 +34,10 @@ const highScoresRouter = function(highScoresCollection) {
   });
 
   router.delete('/all', (req, res) => {
-    highScoresCollection
+    recipesCollection
       .deleteMany({})
       .then( () => {
-        highScoresCollection
+        recipesCollection
           .find()
           .toArray()
           .then( (docs) => res.json(docs))
@@ -48,4 +48,4 @@ const highScoresRouter = function(highScoresCollection) {
 };
 
 
-module.exports = highScoresRouter ;
+module.exports = recipesRouter ;
