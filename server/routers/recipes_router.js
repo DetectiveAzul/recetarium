@@ -24,7 +24,7 @@ const recipesRouter = function(recipesCollection) {
   router.post('/', (req, res) => {
     const newRecipe = req.body.recipeData;
     recipesCollection
-      .insertMany(newRecipe)
+      .insert(newRecipe)
       .then( () => {
         recipesCollection
           .find()
@@ -42,6 +42,18 @@ const recipesRouter = function(recipesCollection) {
           .toArray()
           .then( (docs) => res.json(docs))
         });
+  });
+
+  router.delete('/:id', (req, res) => {
+    const id = req.params.id;
+    recipesCollection
+      .deleteOne({ _id: ObjectID(id)})
+      .then( () => {
+        recipesCollection
+          .find()
+          .toArray()
+          .then( (docs) => res.json(docs))
+      });
   });
 
   return router;
