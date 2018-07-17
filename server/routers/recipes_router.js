@@ -33,6 +33,23 @@ const recipesRouter = function(recipesCollection) {
         });
   });
 
+  router.put('/:id', (req, res) => {
+    const id = req.params.id;
+    const updatedRecipe = req.body.recipeData;
+    recipesCollection
+      .updateOne(
+        { _id: ObjectID(id)},
+        { $set: updatedRecipe },
+        { upsert: true }
+      )
+      .then( () => {
+        recipesCollection
+          .find({ _id: ObjectID(id)})
+          .toArray()
+          .then( (docs) => res.json(docs))
+      })
+  });
+
   router.delete('/all', (req, res) => {
     recipesCollection
       .deleteMany({})
