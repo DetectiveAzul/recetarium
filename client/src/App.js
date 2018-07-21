@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
-import Request from './helpers/request.js';
+import RequestTest from './containers/RequestTest.js';
 
 class App extends Component {
-  render() {
-    //Test connection with API is working
-    // const request = new Request('http://localhost:8080/api/recipes');
-    // request.get()
-    //   .then((recipes) => {
-    //     console.log(recipes)
-    //   });
+  constructor() {
+    super()
+    this.state = {
+      recipes: []
+    }
+  }
 
-    //Returning the content from the API
+  componentDidMount() {
+    const url = 'http://recetarium-api.herokuapp.com/api/recipes';
+    fetch(url)
+    .then(res =>  res.json() )
+    .then(recipesData => this.setState({recipes: recipesData }))
+    .catch(error => console.log('Error:', error));
+  };
+
+  render() {
     return (
-      <div className='content'>
+      <div className='App'>
+        <RequestTest recipes= {this.state.recipes} />
       </div>
     );
   }
